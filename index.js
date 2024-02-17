@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import 'dotenv/config'
 import Utils from './utils.js'
 
 const PORT = process.env.PORT || 4000
@@ -14,10 +15,10 @@ app.get('/', (req, res) => {
   res.send('<h1>Tracker</h1>')
 })
 
-app.get('/api/track/click', async (req, res) => {
+app.get('/review', async (req, res) => {
   const paramsGet = req.query
   const urlDestino = paramsGet.url
-  const urlPost = 'https://script.google.com/macros/s/AKfycbwbMKcDvu4VBw9FUyFxS754_h45bY-2AIzbafdGgH6dLn6Pg15uVk2QG55XTMyLGQK8/exec'
+  const urlPost = process.env.URL_POST
 
   const paramsPost = {
     emailToTrack: paramsGet.email,
