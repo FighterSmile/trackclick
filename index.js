@@ -27,9 +27,8 @@ app.get('/review', async (req, res) => {
   }
 
   try {
-    await Utils.axiosPost(urlPost, paramsPost)
-
     res.redirect(urlDestino)
+    await Utils.axiosPost(urlPost, paramsPost)
   } catch (error) {
     console.error(error.message)
     res.status(500).send('Error')
