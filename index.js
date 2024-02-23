@@ -15,6 +15,25 @@ app.get('/', (req, res) => {
   res.send('<h1>Tracker</h1>')
 })
 
+app.get('/performance', async (req, res) => {
+  const paramsGet = req.query
+  const urlDestino = paramsGet.url
+  const urlPost = process.env.URL_POST_PERFORMANCE
+
+  const paramsPost = {
+    email: paramsGet.email,
+    date: paramsGet.date
+  }
+
+  try {
+    res.redirect(urlDestino)
+    await Utils.axiosPost(urlPost, paramsPost)
+  } catch (error) {
+    console.error(error.message)
+    res.status(500).send('Error')
+  }
+})
+
 app.get('/review', async (req, res) => {
   const paramsGet = req.query
   const urlDestino = paramsGet.url
