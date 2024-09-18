@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 4000
 const app = express()
 
 app.use(cors())
-
 app.disable('x-powered-by')
 
 app.get('/', (req, res) => {
@@ -26,8 +25,8 @@ app.get('/performance', async (req, res) => {
   }
 
   try {
-    res.redirect(urlDestino)
     await Utils.axiosPost(urlPost, paramsPost)
+    res.redirect(urlDestino)
   } catch (error) {
     console.error(error.message)
     res.status(500).send('Error')
@@ -53,6 +52,22 @@ app.get('/review', async (req, res) => {
     res.status(500).send('Error')
   }
 })
+
+app.get("/check-availability", async (req, res) => {
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours();
+
+  let  isAvailable = false;
+
+  if(day >= 1 && day <= 5){
+    isAvailable = true;
+  }else if ((day === 0 || day === 6) && hour >= 10 && hour < 16) {
+    isAvailable = true;
+  }
+
+  res.json({available: isAvailable})
+}
 
 app.use((req, res) => {
   res.send('<h1>404</h1>')
