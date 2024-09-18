@@ -61,7 +61,11 @@ app.get("/check-availability", async (req, res) => {
   let isAvailable = false;
 
   if (day >= 1 && day <= 5) {
-    isAvailable = true;
+    if (hour >= 10 && hour <= 11) {
+      isAvailable = false;
+    } else {
+      isAvailable = true;
+    }
   } else if ((day === 0 || day === 6) && hour >= 10 && hour < 16) {
     isAvailable = true;
   }
