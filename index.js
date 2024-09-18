@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import Utils from "./utils.js";
-import moment from "moment-timezone";
 
 const PORT = process.env.PORT || 4000;
 
@@ -55,19 +54,26 @@ app.get("/review", async (req, res) => {
 });
 
 app.get("/check-availability", async (req, res) => {
-  const now = moment().tz("America/Bogota");
-  const day = now.getDay();
-  const hour = now.getHours();
+  const now = new Date();
+
+  const utcHours = now.getUTCHours();
+  const colombiaHour = (utcHours - 5 + 24) % 24;
+
+  const day = now.getUTCDay();
 
   let isAvailable = false;
 
   if (day >= 1 && day <= 5) {
-    if (hour >= 10 && hour <= 12) {
+    if (colombiaHour >= 10 && colombiaHour <= 11) {
       isAvailable = false;
     } else {
       isAvailable = true;
     }
-  } else if ((day === 0 || day === 6) && hour >= 10 && hour < 16) {
+  } else if (
+    (day === 0 || day === 6) &&
+    colombiaHour >= 10 &&
+    colombiaHour < 16
+  ) {
     isAvailable = true;
   }
 
