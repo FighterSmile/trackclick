@@ -70,7 +70,7 @@ app.get("/check-availability", async (req, res) => {
     isAvailable = true;
   }
 
-  res.json({ available: isAvailable });
+  res.json({ available: isAvailable, date: now });
 });
 
 app.use((req, res) => {
